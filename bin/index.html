@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+	<title>Haxe Web Audio Mixer</title>
+    
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+	
+	<div id="app">
+	
+		<div id="top">
+			<h1>Haxe Web Audio Mixer</h1>
+			<p>Haxe reinterpreatation of MT5 Mixer (https://github.com/squallooo) - All credits to Michael Buffa and Amine Hallili </p>
+		</div>
+		<div id="masterTools">
+			<div id="controls" >
+				<button id="bplay" type="button" class="btn btn-default btn-lg" disabled>Play</button>
+				<button id="bpause" onclick="pauseAllTracks();" disabled type="button" class="btn btn-default btn-lg">Pause</span></button>
+				<button id="bstop" onclick="stopAllTracks();"  type="button" class="btn btn-default btn-lg" disabled>Stop</button>				
+				<br /><br />Master volume
+				<input type='range' class = 'volumeSlider custom' id='masterVolume' min='0' max = '100' value='100' oninput='setMasterVolume();'/>
+				<span id="position">Position</span>
+			</div>	
+			<canvas id="waveCanvas" >			
+		</div>
+		<div id="scroll">
+			<div id="trackControl">
+				<table id="tracks">
+				</table>
+			</div>
+			<div id="canvass">
+				<div style="position: relative;">
+					<canvas id="myCanvas" width="602" height="400" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+					<canvas id="frontCanvas"                       style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+    </body>
+    
+    <script src="HaxeWebAudioMixer.js"></script>
+    
+</html>
