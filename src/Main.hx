@@ -87,7 +87,6 @@ class Main
 		this.masterVolume.oninput = this.setMasterVolume;
 		this.waveformDrawer = new WavefromDrawer();
 		
-		//this.context = new AudioContext();
 		this.context = this.getAudioContext();
 		
 		 loadSong(Main.songData);
@@ -108,18 +107,18 @@ class Main
 		 this.onAnimate();
 	}
 	
-	function getAudioContext() 
+	function getAudioContext():AudioContext
 	{
-		var context:Dynamic = null;
+		var context:AudioContext = null;
 		untyped __js__ ('
 			if (typeof AudioContext == "function") {
 				context = new AudioContext();
 				console.log("USING STANDARD WEB AUDIO API");
-				alert("Standard Web Audio Api");
+				//alert("Standard Web Audio Api");
 			} else if ((typeof webkitAudioContext == "function") || (typeof webkitAudioContext == "object")) {
 				context = new webkitAudioContext();
 				console.log("USING WEBKIT AUDIO API");
-				alert("Webkit Web Audio Api");
+				alert("Using Webkit Web Audio Api");
 			} else {
 				alert("AudioContext is not supported.");
 				throw new Error("AudioContext is not supported. :(");
