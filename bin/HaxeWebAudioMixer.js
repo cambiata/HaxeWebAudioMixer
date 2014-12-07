@@ -58,7 +58,7 @@ var Main = function() {
 	this.btnStop.onclick = $bind(this,this.stopAllTracks);
 	this.masterVolume.oninput = $bind(this,this.setMasterVolume);
 	this.waveformDrawer = new audio.js.WavefromDrawer();
-	this.context = new AudioContext();
+	this.context = this.getAudioContext();
 	this.loadSong(Main.songData);
 	Main.animationCallback = $bind(this,this.onAnimate);
 	
@@ -82,7 +82,25 @@ Main.main = function() {
 Main.animationCallback = $hx_exports.Main.animationCallback = function() {
 };
 Main.prototype = {
-	onBtnPlayClick: function(e) {
+	getAudioContext: function() {
+		var context = null;
+		
+			if (typeof AudioContext == "function") {
+				context = new AudioContext();
+				console.log("USING STANDARD WEB AUDIO API");
+				alert("Standard Web Audio Api");
+			} else if ((typeof webkitAudioContext == "function") || (typeof webkitAudioContext == "object")) {
+				context = new webkitAudioContext();
+				console.log("USING WEBKIT AUDIO API");
+				alert("Webkit Web Audio Api");
+			} else {
+				alert("AudioContext is not supported.");
+				throw new Error("AudioContext is not supported. :(");
+			}
+		;
+		return context;
+	}
+	,onBtnPlayClick: function(e) {
 		this.playAllTracks(0);
 	}
 	,jumpTo: function(pos) {

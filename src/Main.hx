@@ -63,7 +63,6 @@ class Main
 		, { name:"LeadVox", sound:"07_LeadVox.mp3" }
 		, { name:"LeadVoxDouble1", sound:"08_LeadVoxDouble1.mp3" }
 		, { name:"LeadVoxDouble2", sound:"09_LeadVoxDouble2.mp3" }
-
 		] };
 	
 	var currentSong:Song;
@@ -87,8 +86,12 @@ class Main
 		this.btnStop.onclick = stopAllTracks;
 		this.masterVolume.oninput = this.setMasterVolume;
 		this.waveformDrawer = new WavefromDrawer();
-		this.context = new AudioContext();
+		
+		//this.context = new AudioContext();
+		this.context = this.getAudioContext();
+		
 		 loadSong(Main.songData);
+		 
 		 Main.animationCallback = this.onAnimate;		 
 		 untyped __js__('
 			window.requestAnimFrame = (function() {
@@ -103,6 +106,26 @@ class Main
 			})();		 
 		 ');
 		 this.onAnimate();
+	}
+	
+	function getAudioContext() 
+	{
+		var context:Dynamic = null;
+		untyped __js__ ('
+			if (typeof AudioContext == "function") {
+				context = new AudioContext();
+				console.log("USING STANDARD WEB AUDIO API");
+				alert("Standard Web Audio Api");
+			} else if ((typeof webkitAudioContext == "function") || (typeof webkitAudioContext == "object")) {
+				context = new webkitAudioContext();
+				console.log("USING WEBKIT AUDIO API");
+				alert("Webkit Web Audio Api");
+			} else {
+				alert("AudioContext is not supported.");
+				throw new Error("AudioContext is not supported. :(");
+			}
+		');
+		return context;
 	}
 	
 	function onBtnPlayClick(e) 
@@ -248,7 +271,6 @@ class Main
 		currentSong.pause();
 		lastTime = context.currentTime;
 	}
-	
 	
 	function setMasterVolume(e=null) 
 	{
